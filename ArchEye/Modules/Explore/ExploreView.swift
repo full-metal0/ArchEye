@@ -15,7 +15,7 @@ struct ExploreView: View {
     
     var body: some View {
         ZStack {
-            backgroundGradient
+            //backgroundGradient
             
             VStack {
                 HStack {
@@ -56,6 +56,13 @@ struct ExploreView: View {
             .padding(.vertical, 20)
             .padding(.horizontal, 10)
         }
+        .background(
+                    Image("background")
+                        .resizable()
+                        .scaledToFill()
+                        .edgesIgnoringSafeArea(.all)
+                )
+
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .ignoresSafeArea(.all)
         .onAppear {
