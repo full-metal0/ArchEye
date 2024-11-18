@@ -1,11 +1,9 @@
 import SwiftUI
 import PhotosUI
 
-
 struct ExploreView: View {
     @State private var image: Image?
     @State private var showingCustomCamera = false
-    @State private var isStartDrawn = false
     @State private var inputImage: UIImage?
     @State private var progress: CGFloat = 0
     @State private var photoItem: PhotosPickerItem?
@@ -14,64 +12,26 @@ struct ExploreView: View {
     @ObservedObject var viewModel: ViewModel
     
     var body: some View {
-        ZStack {
-            //backgroundGradient
-            
-            VStack {
-                HStack {
-                    uploadPhotoButton
-                    Spacer()
-                    title
-                    Spacer()
-                    makePhotoButton
-                }
-                
-                if let image = image {
-                    image
-                        .resizable()
-                        .clipShape(RoundedRectangle(cornerRadius: 25, style: .continuous))
-                        .frame(width: 250, height: 250, alignment: .center)
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 25, style: .continuous)
-                                .stroke(.white, lineWidth: 0.2)
-                                .shadow(color: .black, radius: 1)
-                        )
-                    
-                    HStack {
-                        
-                        Text(label)
-                            .font(.title2)
-                            .foregroundColor(.black)
-                            .shadow(color: Color(red: 197/255, green: 197/255, blue: 197/255), radius: 3, x: 5, y: -2)
-                            .blur(radius: 0.2)
-                            .padding()
-                        
-                        StatusBar(isStartDrawn: $isStartDrawn, statusPercent: $statusBarPercentes)
-                    }
-                }
-                
-                Spacer()
-            }
-            .padding(.top, 40)
-            .padding(.vertical, 20)
-            .padding(.horizontal, 10)
+        VStack {
+            upperButtons
+            Spacer()
+            analyziedPhoto
+            Spacer()
+            makePhotoButton
         }
+        .padding(.top, 40)
+        .padding(.vertical, 20)
+        .padding(.bottom, 100)
         .background(
-                    Image("background")
-                        .resizable()
-                        .scaledToFill()
-                        .edgesIgnoringSafeArea(.all)
-                )
-
+            Image("background")
+                .resizable()
+                .scaledToFill()
+                .edgesIgnoringSafeArea(.all)
+        )
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .ignoresSafeArea(.all)
         .onAppear {
-            withAnimation(.linear(duration: 1.0)) {
-                progress = 1.0
-            }
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-                ColorTheme.lastTheme = defaultTheme
-            }
+            progress = 0.0
         }
         .onDisappear {
             progress = 0.0
@@ -80,12 +40,154 @@ struct ExploreView: View {
             CustomCameraView(image: $inputImage)
         }
         .onChange(of: photoItem) { _ in
-            Task {
-                if let data = try? await photoItem?.loadTransferable(type: Data.self) {
-                    if let uiImage = UIImage(data: data) {
-                        inputImage = uiImage
-                        loadImage()
-                        return
+            handlePhotoChange()
+        }
+    }
+}
+
+private extension ExploreView {
+    
+    var upperButtons: some View {
+        HStack {
+            uploadPhotoButton
+            Spacer()
+            title
+            Spacer()
+            sendPhotoButton
+        }
+        .padding(.horizontal, 10)
+    }
+    
+    @ViewBuilder
+    var analyziedPhoto: some View {
+        if let image = image {
+            image
+                .resizable()
+                .clipShape(RoundedRectangle(cornerRadius: 25, style: .continuous))
+                .frame(width: 300, height: 300, alignment: .center)
+                .aspectRatio(contentMode: .fit)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 25, style: .continuous)
+                        .stroke(Color.white, lineWidth: 4)
+                        .shadow(color: .black.opacity(0.5), radius: 10, x: 5, y: 5)
+                )
+            
+            HStack {
+                Text(label)
+                    .font(.title2)
+                    .foregroundColor(.black)
+                    .shadow(color: Color(red: 197/255, green: 197/255, blue: 197/255), radius: 3, x: 5, y: -2)
+                    .blur(radius: 0.2)
+                    .padding()
+            }
+        }
+    }
+}
+
+// MARK: - Buttons
+
+private extension ExploreView {
+    
+    var makePhotoButton: some View {
+        ZStack {
+            ProgressView(value: progress)
+                .progressViewStyle(CircularProgressViewStyle())
+            
+            Button(
+                action: { showingCustomCamera = true },
+                label: { makeTitle }
+            )
+            .exploreButtonStyle()
+        }
+    }
+    
+    var makeTitle: some View {
+        Image(systemName: "camera.viewfinder")
+            .resizable()
+            .frame(width: 35, height: 35)
+    }
+    
+    var sendPhotoButton: some View {
+        Button(
+            action: { shareImage() },
+            label: { sendTitle }
+        )
+        .exploreButtonStyle()
+    }
+    
+    var sendTitle: some View {
+        Image(systemName: "paperplane")
+            .resizable()
+            .frame(width: 30, height: 30)
+    }
+    
+    var uploadPhotoButton: some View {
+        PhotosPicker(selection: $photoItem, matching: .images) {
+            uploadTitle
+        }
+        .exploreButtonStyle()
+        .onChange(of: photoItem) { _ in
+            handlePhotoChange()
+        }
+    }
+    
+    var uploadTitle: some View {
+        Image(systemName: "photo.stack")
+            .resizable()
+            .frame(width: 30, height: 30)
+    }
+}
+
+// MARK: - Button Style Modifier
+
+private extension View {
+    func exploreButtonStyle() -> some View {
+        self.modifier(ButtonStyleModifier())
+    }
+}
+
+// MARK: - Load Image Action
+
+private extension ExploreView {
+    func loadImage() {
+        guard let inputImage = inputImage else { return }
+        viewModel.classifiedBuild(inputImage)
+        image = Image(uiImage: inputImage)
+        viewModel.images.append(image!)
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+            statusBarPercentes = viewModel.resultPercents.values.max() ?? 0.0
+            withAnimation(.easeOut(duration: 3).delay(0.5)) {
+                progress = 1.0
+            }
+        }
+    }
+}
+
+// MARK: - Share Image Action
+
+private extension ExploreView {
+    func shareImage() {
+        guard let inputImage = inputImage else { return }
+        let activityController = UIActivityViewController(activityItems: [inputImage], applicationActivities: nil)
+        if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+           let rootViewController = windowScene.windows.first?.rootViewController {
+            rootViewController.present(activityController, animated: true, completion: nil)
+        }
+    }
+}
+
+// MARK: - Handle Photo Changes Action
+
+private extension ExploreView {
+    func handlePhotoChange() {
+        Task {
+            if let data = try? await photoItem?.loadTransferable(type: Data.self) {
+                if let uiImage = UIImage(data: data) {
+                    inputImage = uiImage
+                    loadImage()
+                    withAnimation(.linear(duration: 1.0)) {
+                        progress = 0.8
                     }
                 }
             }
@@ -93,96 +195,6 @@ struct ExploreView: View {
     }
 }
 
-private extension ExploreView {
-    
-    func loadImage() {
-        isStartDrawn = false
-        guard let inputImage = inputImage else { return }
-        viewModel.classifiedBuild(inputImage)
-        image = Image(uiImage: inputImage)
-        viewModel.images.append(image!)
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
-            statusBarPercentes = viewModel.resultPercents.values.max() ?? 0.0
-            isStartDrawn = true
-        }
-    }
-}
-
-
-// MARK: - Background Gradient
-
-private extension ExploreView {
-    
-    var backgroundGradient: some View {
-        Rectangle()
-            .animatableGradient(
-                fromGradient: ColorTheme.lastTheme.gradient,
-                toGradient: defaultTheme.gradient,
-                progress: progress
-            )
-    }
-    
-    var defaultTheme: Theme {
-        ColorTheme.yellowTheme
-    }
-}
-
-// MARK: - Make Photo Button
-
-private extension ExploreView {
-    
-    var makePhotoButton: some View {
-        Button(
-            action: { showingCustomCamera = true },
-            label: { makePhotoButtonTitle }
-        )
-    }
-    
-    var makePhotoButtonTitle: some View {
-        Image(systemName: "camera.viewfinder")
-            .resizable()
-            .scaledToFit()
-            .frame(width: 40, height: 30)
-            .foregroundColor(.black)
-            .padding()
-            .background {
-                RoundedRectangle(cornerRadius: 25, style: .continuous)
-                    .fill(
-                        .shadow(.inner(color: Color(red: 197/255, green: 197/255, blue: 197/255), radius: 2, x: 1, y: 1))
-                        .shadow(.inner(color: Color(red: 197/255, green: 197/255, blue: 197/255), radius: 2, x: -1, y: -1))
-                    )
-                    .foregroundColor(.white)
-            }
-    }
-}
-
-// MARK: - Upload Photo Button
-
-private extension ExploreView {
-    
-    var uploadPhotoButton: some View {
-        PhotosPicker(selection: $photoItem, matching: .images) {
-            uploadPhotoButtonTitle
-        }
-    }
-    
-    var uploadPhotoButtonTitle: some View {
-        Image(systemName: "photo.stack")
-            .resizable()
-            .scaledToFit()
-            .frame(width: 40, height: 30)
-            .foregroundColor(.black)
-            .padding()
-            .background {
-                RoundedRectangle(cornerRadius: 25, style: .continuous)
-                    .fill(
-                        .shadow(.inner(color: Color(red: 197/255, green: 197/255, blue: 197/255), radius: 2, x: 1, y: 1))
-                        .shadow(.inner(color: Color(red: 197/255, green: 197/255, blue: 197/255), radius: 2, x: -1, y: -1))
-                    )
-                    .foregroundColor(.white)
-            }
-    }
-}
 
 // MARK: - Titles
 
@@ -190,11 +202,17 @@ private extension ExploreView {
     
     var title: some View {
         Text("Explore with ArchEye")
-            .font(.title)
-            .foregroundColor(.black)
-            .shadow(color: Color(red: 197/255, green: 197/255, blue: 197/255), radius: 3, x: 5, y: -2)
-            .blur(radius: 0.2)
+            .font(.custom("Futura-Bold", size: 24))
+            .foregroundColor(.white)
             .padding()
+            .background(
+                RoundedRectangle(cornerRadius: 10)
+                    .fill(Color.gray.opacity(0.2))
+            )
+            .overlay(
+                RoundedRectangle(cornerRadius: 10)
+                    .stroke(Color.white, lineWidth: 1)
+            )
     }
     
     var label: String {
@@ -212,68 +230,16 @@ private extension ExploreView {
     }
 }
 
-enum Styles: String {
-    case baroque = "Барокко"
-    case oldRussianArchitecture = "Древнерусская архитектура"
-    case classicism = "Классицизм"
-    case modern = "Модерн"
-    case modernAndExperimental = "Современный и экспериментальный"
-    case stalinistArchitecture = "Сталинская архитектура"
-    case typicalSovietArchitecture = "Типовая советская архитектура"
-}
+// MARK: Progress Style Modifier
 
-// MARK: - Status Alerts
-
-private extension ExploreView {
-    
-    var baroqueAlert: some View {
-            Text("Baroque")
-                .foregroundColor(.black)
-                .bold()
-    }
-    
-    var goodAlert: some View {
-        VStack {
-            Text("Good.")
-                .foregroundColor(.black)
-                .bold()
-            Text("You're in great shape! You can devote training to individual muscle groups.").foregroundColor(.black)
-        }
-    }
-    
-    var mediumAlert: some View {
-        VStack {
-            Text("Medium.")
-                .foregroundColor(.black)
-                .bold()
-            Text("There are strengths, but they must be protected! Pay attention to individual muscle groups, alternating this with flexibility exercises.").foregroundColor(.black)
-        }
-    }
-    
-    var badAlert: some View {
-        VStack {
-            Text("Bad.")
-                .foregroundColor(.black)
-                .bold()
-            Text("You should avoid overly strenuous activities! Diversify your activities with coordination exercises, paying attention to different muscle groups.").foregroundColor(.black)
-        }
-    }
-    
-    var awfulAlert: some View {
-        VStack {
-            Text("Awful.")
-                .foregroundColor(.black)
-                .bold()
-            Text("It's worth saving your energy! Continue to focus on your heart health and flexibility exercises!").foregroundColor(.black)
-        }
-    }
-    
-    var deadAlert: some View {
-        VStack {
-            Text("You are dead.")
-                .foregroundColor(.black)
-                .bold()
-            Text("Rest, rest and more rest! Dedicate the day to recreational activities to fully restore your body!").foregroundColor(.black)
+struct CircularProgressViewStyle: ProgressViewStyle {
+    func makeBody(configuration: Configuration) -> some View {
+        ZStack {
+            Circle()
+                .trim(from: 0.0, to: CGFloat(configuration.fractionCompleted ?? 0))
+                .stroke(Color.purple, lineWidth: 4)
+                .rotationEffect(Angle(degrees: -90))
+                .frame(width: 65, height: 65)
         }
     }
 }
