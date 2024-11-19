@@ -1,10 +1,3 @@
-//
-//  ArchEyeTests.swift
-//  ArchEyeTests
-//
-//  Created by full metal on 11.11.2023.
-//
-
 import XCTest
 @testable import ArchEye
 

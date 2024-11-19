@@ -1,10 +1,3 @@
-//
-//  ArchEyeUITests.swift
-//  ArchEyeUITests
-//
-//  Created by full metal on 11.11.2023.
-//
-
 import XCTest
 
 final class ArchEyeUITests: XCTestCase {

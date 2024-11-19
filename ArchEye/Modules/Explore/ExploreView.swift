@@ -86,8 +86,8 @@ private extension ExploreView {
                 }
                 .frame(width: geometry.size.width, height: geometry.size.height)
             }.padding(.horizontal, 20)
-
-
+            
+            
             
             photoLabel
             
@@ -139,6 +139,28 @@ private extension ExploreView {
         }
     }
 }
+
+// MARK: - Title
+
+private extension ExploreView {
+    
+    var title: some View {
+        Text("Explore with ArchEye")
+            .font(.custom("Futura-Bold", size: 24))
+            .foregroundColor(.white)
+            .padding()
+            .background(
+                RoundedRectangle(cornerRadius: 10)
+                    .fill(Color.black.opacity(0.2))
+            )
+            .overlay(
+                RoundedRectangle(cornerRadius: 10)
+                    .stroke(Color.white, lineWidth: 1)
+            )
+            .shadow(color: .black.opacity(0.8), radius: 5, x: 0, y: 2)
+    }
+}
+
 
 // MARK: - Buttons
 
@@ -223,12 +245,10 @@ private extension ExploreView {
         labelTimer?.invalidate()
         displayedLabelText = ""
         
-        DispatchQueue.global().async {
-            let fullText = label
-            for (index, character) in fullText.enumerated() {
-                DispatchQueue.main.asyncAfter(deadline: .now() + Double(index) * 0.1) {
-                    displayedLabelText.append(character)
-                }
+        let fullText = label
+        for (index, character) in fullText.enumerated() {
+            DispatchQueue.main.asyncAfter(deadline: .now() + Double(index) * 0.1) {
+                displayedLabelText.append(character)
             }
         }
     }
@@ -241,7 +261,9 @@ private extension ExploreView {
         guard let inputImage = inputImage else { return }
         viewModel.classifiedBuild(inputImage)
         image = Image(uiImage: inputImage)
-        viewModel.images.append(image!)
+        if let image {
+            viewModel.images.append(image)
+        }
         statusBarPercentes = 0.0
         progress = 0.0
         
@@ -282,27 +304,5 @@ private extension ExploreView {
                 }
             }
         }
-    }
-}
-
-
-// MARK: - Titles
-
-private extension ExploreView {
-    
-    var title: some View {
-        Text("Explore with ArchEye")
-            .font(.custom("Futura-Bold", size: 24))
-            .foregroundColor(.white)
-            .padding()
-            .background(
-                RoundedRectangle(cornerRadius: 10)
-                    .fill(Color.black.opacity(0.2))
-            )
-            .overlay(
-                RoundedRectangle(cornerRadius: 10)
-                    .stroke(Color.white, lineWidth: 1)
-            )
-            .shadow(color: .black.opacity(0.8), radius: 5, x: 0, y: 2)
     }
 }

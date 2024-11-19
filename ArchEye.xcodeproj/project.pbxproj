@@ -17,7 +17,6 @@
 		2950E8D02AFEF4FB00CDBF31 /* CameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2950E8CF2AFEF4FB00CDBF31 /* CameraView.swift */; };
 		2950E8D62AFEFB3A00CDBF31 /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2950E8D52AFEFB3A00CDBF31 /* ViewModel.swift */; };
 		2950E8DC2AFF1CE900CDBF31 /* TabBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2950E8DB2AFF1CE900CDBF31 /* TabBarView.swift */; };
-		2950E8E02AFF1CFB00CDBF31 /* TabItems.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2950E8DF2AFF1CFB00CDBF31 /* TabItems.swift */; };
 		2950E8E32AFF1D0E00CDBF31 /* ColorScheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2950E8E22AFF1D0E00CDBF31 /* ColorScheme.swift */; };
 		2950E8E52AFF1D1400CDBF31 /* AnimatableGradientModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2950E8E42AFF1D1400CDBF31 /* AnimatableGradientModifier.swift */; };
 		2950E8E72AFF1D1B00CDBF31 /* View+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2950E8E62AFF1D1B00CDBF31 /* View+Extension.swift */; };
@@ -40,7 +39,6 @@
 		3B3CD3A02CDA940C00AEBC04 /* ActivityAttributesDynamicIsland.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B3CD39F2CDA940100AEBC04 /* ActivityAttributesDynamicIsland.swift */; };
 		3B3CD3A32CDA947C00AEBC04 /* VStack+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B3CD3A22CDA947200AEBC04 /* VStack+Extension.swift */; };
 		3B3CD3A52CDA949200AEBC04 /* HStack+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B3CD3A42CDA948C00AEBC04 /* HStack+Extension.swift */; };
-		3B3CD3A72CDA94A900AEBC04 /* Array+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B3CD3A62CDA94A700AEBC04 /* Array+Extension.swift */; };
 		3B3F76652CEBAE8800880676 /* ExploreButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B3F76642CEBAE8800880676 /* ExploreButton.swift */; };
 /* End PBXBuildFile section */
 
@@ -75,7 +73,6 @@
 		2950E8CF2AFEF4FB00CDBF31 /* CameraView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraView.swift; sourceTree = "<group>"; };
 		2950E8D52AFEFB3A00CDBF31 /* ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
 		2950E8DB2AFF1CE900CDBF31 /* TabBarView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarView.swift; sourceTree = "<group>"; };
-		2950E8DF2AFF1CFB00CDBF31 /* TabItems.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabItems.swift; sourceTree = "<group>"; };
 		2950E8E22AFF1D0E00CDBF31 /* ColorScheme.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorScheme.swift; sourceTree = "<group>"; };
 		2950E8E42AFF1D1400CDBF31 /* AnimatableGradientModifier.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnimatableGradientModifier.swift; sourceTree = "<group>"; };
 		2950E8E62AFF1D1B00CDBF31 /* View+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "View+Extension.swift"; sourceTree = "<group>"; };
@@ -98,7 +95,6 @@
 		3B3CD39F2CDA940100AEBC04 /* ActivityAttributesDynamicIsland.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityAttributesDynamicIsland.swift; sourceTree = "<group>"; };
 		3B3CD3A22CDA947200AEBC04 /* VStack+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "VStack+Extension.swift"; sourceTree = "<group>"; };
 		3B3CD3A42CDA948C00AEBC04 /* HStack+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HStack+Extension.swift"; sourceTree = "<group>"; };
-		3B3CD3A62CDA94A700AEBC04 /* Array+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+Extension.swift"; sourceTree = "<group>"; };
 		3B3F76642CEBAE8800880676 /* ExploreButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreButton.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -157,7 +153,6 @@
 				2950E8D82AFF1C9300CDBF31 /* App */,
 				3BA306542CE3A8C00097368E /* Navigation */,
 				2950E8D72AFF1C7D00CDBF31 /* Modules */,
-				2950E8DA2AFF1CC800CDBF31 /* TabBar */,
 				2950E8E12AFF1D0200CDBF31 /* Utilites */,
 				2950E8A92AFEF4E500CDBF31 /* Assets.xcassets */,
 				2950E8FE2AFF715100CDBF31 /* 120013.jpg */,
@@ -222,13 +217,6 @@
 			path = Explore;
 			sourceTree = "<group>";
 		};
-		2950E8DA2AFF1CC800CDBF31 /* TabBar */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = TabBar;
-			sourceTree = "<group>";
-		};
 		2950E8E12AFF1D0200CDBF31 /* Utilites */ = {
 			isa = PBXGroup;
 			children = (
@@ -283,7 +271,6 @@
 			children = (
 				3B10C9042CE6244600F20FCF /* TabBarButtons */,
 				3B10C9302CE6473700F20FCF /* Custom */,
-				2950E8DF2AFF1CFB00CDBF31 /* TabItems.swift */,
 				2950E8DB2AFF1CE900CDBF31 /* TabBarView.swift */,
 			);
 			path = TabBar;
@@ -313,7 +300,6 @@
 		3B3CD3A12CDA944000AEBC04 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				3B3CD3A62CDA94A700AEBC04 /* Array+Extension.swift */,
 				3B3CD3A42CDA948C00AEBC04 /* HStack+Extension.swift */,
 				3B3CD3A22CDA947200AEBC04 /* VStack+Extension.swift */,
 			);
@@ -473,7 +459,6 @@
 				3B10C90B2CE6245200F20FCF /* BezierPathLength.swift in Sources */,
 				3B10C90C2CE6245200F20FCF /* ButtonsBarLayout.swift in Sources */,
 				2950E8D02AFEF4FB00CDBF31 /* CameraView.swift in Sources */,
-				2950E8E02AFF1CFB00CDBF31 /* TabItems.swift in Sources */,
 				3B10C9082CE6244B00F20FCF /* Tabbar.swift in Sources */,
 				3B3CD3A02CDA940C00AEBC04 /* ActivityAttributesDynamicIsland.swift in Sources */,
 				2950E8ED2AFF1D9600CDBF31 /* HistoryView.swift in Sources */,
@@ -484,7 +469,6 @@
 				2950E8F62AFF30C800CDBF31 /* ExploreView.swift in Sources */,
 				2950E8FC2AFF6B9700CDBF31 /* Model.mlpackage in Sources */,
 				3B3CD3A52CDA949200AEBC04 /* HStack+Extension.swift in Sources */,
-				3B3CD3A72CDA94A900AEBC04 /* Array+Extension.swift in Sources */,
 				3B0892472CECCAEB001E8A5D /* CameraController.swift in Sources */,
 				2950E8E72AFF1D1B00CDBF31 /* View+Extension.swift in Sources */,
 				3B10C9142CE6245900F20FCF /* Utils.swift in Sources */,
