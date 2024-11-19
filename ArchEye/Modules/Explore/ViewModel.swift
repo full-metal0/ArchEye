@@ -5,7 +5,7 @@ import SwiftUI
 
 final class ViewModel: ObservableObject {
     
-    let model = try? Model()
+    private let model = try? Model()
     
     @Published var resultLabel = "undetected"
     @Published var resultPercents = [String:Double]()

@@ -8,6 +8,10 @@ struct ExploreView: View {
     @State private var progress: CGFloat = 0
     @State private var photoItem: PhotosPickerItem?
     @State private var statusBarPercentes = 0.0
+    @State private var displayedPercent: Double = 0.0
+    
+    @State private var displayedLabelText: String = ""
+    @State private var labelTimer: Timer?
     
     @ObservedObject var viewModel: ViewModel
     
@@ -15,7 +19,7 @@ struct ExploreView: View {
         VStack {
             upperButtons
             Spacer()
-            analyziedPhoto
+            analyzedPhoto
             Spacer()
             makePhotoButton
         }
@@ -30,12 +34,6 @@ struct ExploreView: View {
         )
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .ignoresSafeArea(.all)
-        .onAppear {
-            progress = 0.0
-        }
-        .onDisappear {
-            progress = 0.0
-        }
         .sheet(isPresented: $showingCustomCamera, onDismiss: loadImage) {
             CustomCameraView(image: $inputImage)
         }
@@ -44,6 +42,8 @@ struct ExploreView: View {
         }
     }
 }
+
+// MARK: - Header
 
 private extension ExploreView {
     
@@ -57,9 +57,14 @@ private extension ExploreView {
         }
         .padding(.horizontal, 10)
     }
+}
+
+// MARK: - Analyzed Photo
+
+private extension ExploreView {
     
     @ViewBuilder
-    var analyziedPhoto: some View {
+    var analyzedPhoto: some View {
         if let image = image {
             image
                 .resizable()
@@ -68,18 +73,59 @@ private extension ExploreView {
                 .aspectRatio(contentMode: .fit)
                 .overlay(
                     RoundedRectangle(cornerRadius: 25, style: .continuous)
-                        .stroke(Color.white, lineWidth: 4)
+                        .stroke(Color.black.opacity(0.6), lineWidth: 4)
                         .shadow(color: .black.opacity(0.5), radius: 10, x: 5, y: 5)
                 )
+                .transition(.opacity)
+                .animation(.easeInOut(duration: 1).delay(0.2), value: image)
             
-            HStack {
-                Text(label)
-                    .font(.title2)
-                    .foregroundColor(.black)
-                    .shadow(color: Color(red: 197/255, green: 197/255, blue: 197/255), radius: 3, x: 5, y: -2)
-                    .blur(radius: 0.2)
-                    .padding()
-            }
+            photoLabel
+            
+            percents
+        }
+    }
+    
+    var photoLabel: some View {
+        HStack {
+            Text(displayedLabelText)
+                .font(.headline)
+                .foregroundColor(.white)
+                .padding(.horizontal, 12)
+                .padding(.vertical, 6)
+                .background(
+                    RoundedRectangle(cornerRadius: 15)
+                        .fill(Color.black.opacity(0.6))
+                )
+                .shadow(color: .black.opacity(0.8), radius: 5, x: 0, y: 2)
+        }
+        .padding(.top, 10)
+    }
+    
+    var percents: some View {
+        Text("\(Int(displayedPercent * 100.0))%")
+            .font(.title3)
+            .foregroundColor(.white)
+            .padding(.horizontal, 12)
+            .padding(.vertical, 6)
+            .background(
+                RoundedRectangle(cornerRadius: 15)
+                    .fill(Color.black.opacity(0.6))
+            )
+            .shadow(color: .black.opacity(0.8), radius: 5, x: 0, y: 2)
+            .padding(.top, 5)
+    }
+    
+    var label: String {
+        switch viewModel.resultLabel {
+        case "Барокко": return "Baroque"
+        case "Древнерусская архитектура": return "Old Russian Architecture"
+        case "Классицизм": return "Classicism"
+        case "Модерн": return "Modern"
+        case "Современный и экспериментальный": return "Modern and Experimental"
+        case "Сталинская архитектура": return "Stalinist Architecture"
+        case "Типовая советская архитектура": return "Typical Soviet Architecture"
+        default:
+            return "Undetected"
         }
     }
 }
@@ -91,7 +137,7 @@ private extension ExploreView {
     var makePhotoButton: some View {
         ZStack {
             ProgressView(value: progress)
-                .progressViewStyle(CircularProgressViewStyle())
+                .progressViewStyle(ExploreProgress())
             
             Button(
                 action: { showingCustomCamera = true },
@@ -126,9 +172,6 @@ private extension ExploreView {
             uploadTitle
         }
         .exploreButtonStyle()
-        .onChange(of: photoItem) { _ in
-            handlePhotoChange()
-        }
     }
     
     var uploadTitle: some View {
@@ -142,7 +185,42 @@ private extension ExploreView {
 
 private extension View {
     func exploreButtonStyle() -> some View {
-        self.modifier(ButtonStyleModifier())
+        self.modifier(ExploreButton())
+    }
+}
+
+// MARK: - Percent Animation
+
+private extension ExploreView {
+    func startAnimatingPercent() {
+        Timer.scheduledTimer(withTimeInterval: 0.02, repeats: true) { timer in
+            withAnimation(.linear(duration: 0.04)) {
+                if displayedPercent < statusBarPercentes {
+                    displayedPercent += 0.01
+                } else {
+                    displayedPercent = statusBarPercentes
+                    timer.invalidate()
+                }
+            }
+        }
+    }
+}
+
+// MARK: - Typing Animation
+
+private extension ExploreView {
+    func startTypingAnimation() {
+        labelTimer?.invalidate()
+        displayedLabelText = ""
+        
+        DispatchQueue.global().async {
+            let fullText = label
+            for (index, character) in fullText.enumerated() {
+                DispatchQueue.main.asyncAfter(deadline: .now() + Double(index) * 0.1) {
+                    displayedLabelText.append(character)
+                }
+            }
+        }
     }
 }
 
@@ -154,12 +232,17 @@ private extension ExploreView {
         viewModel.classifiedBuild(inputImage)
         image = Image(uiImage: inputImage)
         viewModel.images.append(image!)
+        statusBarPercentes = 0.0
+        progress = 0.0
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
             statusBarPercentes = viewModel.resultPercents.values.max() ?? 0.0
-            withAnimation(.easeOut(duration: 3).delay(0.5)) {
-                progress = 1.0
+            withAnimation(.easeOut(duration: 1).delay(0.1)) {
+                progress = statusBarPercentes
+                displayedPercent = 0.0
             }
+            startTypingAnimation()
+            startAnimatingPercent()
         }
     }
 }
@@ -186,9 +269,6 @@ private extension ExploreView {
                 if let uiImage = UIImage(data: data) {
                     inputImage = uiImage
                     loadImage()
-                    withAnimation(.linear(duration: 1.0)) {
-                        progress = 0.8
-                    }
                 }
             }
         }
@@ -207,39 +287,12 @@ private extension ExploreView {
             .padding()
             .background(
                 RoundedRectangle(cornerRadius: 10)
-                    .fill(Color.gray.opacity(0.2))
+                    .fill(Color.black.opacity(0.2))
             )
             .overlay(
                 RoundedRectangle(cornerRadius: 10)
                     .stroke(Color.white, lineWidth: 1)
             )
-    }
-    
-    var label: String {
-        switch viewModel.resultLabel {
-        case "Барокко": return "Baroque"
-        case "Древнерусская архитектура": return "Old Russian Architecture"
-        case "Классицизм": return "Classicism"
-        case "Модерн": return "Modern"
-        case "Современный и экспериментальный": return "Modern and Experimental"
-        case "Сталинская архитектура": return "Stalinist Architecture"
-        case "Типовая советская архитектура": return "Typical Soviet Architecture"
-        default:
-            return "Undetected"
-        }
-    }
-}
-
-// MARK: Progress Style Modifier
-
-struct CircularProgressViewStyle: ProgressViewStyle {
-    func makeBody(configuration: Configuration) -> some View {
-        ZStack {
-            Circle()
-                .trim(from: 0.0, to: CGFloat(configuration.fractionCompleted ?? 0))
-                .stroke(Color.purple, lineWidth: 4)
-                .rotationEffect(Angle(degrees: -90))
-                .frame(width: 65, height: 65)
-        }
+            .shadow(color: .black.opacity(0.8), radius: 5, x: 0, y: 2)
     }
 }
