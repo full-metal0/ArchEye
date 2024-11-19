@@ -44,10 +44,6 @@ extension TabBarView {
         .unselectedColor(.white)
         .ballColor(.purple)
         .cornerRadius(20)
-        .onAppear {
-            print("Initial tab: \(tab), Previous tab: \(prevTab)")
-        }
-        
     }
 }
 

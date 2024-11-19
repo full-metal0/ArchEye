@@ -23,9 +23,8 @@ struct ExploreView: View {
             Spacer()
             makePhotoButton
         }
-        .padding(.top, 40)
-        .padding(.vertical, 20)
-        .padding(.bottom, 100)
+        .padding(.top, safeAreaInsets?.top ?? 0)
+        .padding(.bottom, safeAreaInsets?.bottom ?? 0)
         .background(
             Image("background")
                 .resizable()
@@ -40,6 +39,11 @@ struct ExploreView: View {
         .onChange(of: photoItem) { _ in
             handlePhotoChange()
         }
+    }
+    
+    var safeAreaInsets: UIEdgeInsets? {
+        (UIApplication.shared.connectedScenes.first as? UIWindowScene)?
+            .windows.first?.safeAreaInsets
     }
 }
 
@@ -58,6 +62,7 @@ private extension ExploreView {
         .padding(.horizontal, 10)
     }
 }
+
 
 // MARK: - Analyzed Photo
 
@@ -147,7 +152,7 @@ private extension ExploreView {
     var title: some View {
         Text("Explore with ArchEye")
             .font(.custom("Futura-Bold", size: 24))
-            .foregroundColor(.white)
+            .foregroundColor(.white.opacity(0.9))
             .padding()
             .background(
                 RoundedRectangle(cornerRadius: 10)
@@ -155,7 +160,7 @@ private extension ExploreView {
             )
             .overlay(
                 RoundedRectangle(cornerRadius: 10)
-                    .stroke(Color.white, lineWidth: 1)
+                    .stroke(Color.white.opacity(0.7), lineWidth: 1)
             )
             .shadow(color: .black.opacity(0.8), radius: 5, x: 0, y: 2)
     }
@@ -167,17 +172,18 @@ private extension ExploreView {
 private extension ExploreView {
     
     var makePhotoButton: some View {
-        ZStack {
-            ProgressView(value: progress)
-                .progressViewStyle(ExploreProgress())
-            
-            Button(
-                action: { showingCustomCamera = true },
-                label: { makeTitle }
-            )
-            .exploreButtonStyle()
+            ZStack {
+                ProgressView(value: progress)
+                    .progressViewStyle(ExploreProgress())
+                
+                Button(
+                    action: { showingCustomCamera = true },
+                    label: { makeTitle }
+                )
+                .exploreButtonStyle()
+            }
+            .padding(.bottom, 90)
         }
-    }
     
     var makeTitle: some View {
         Image(systemName: "camera.viewfinder")
@@ -196,7 +202,7 @@ private extension ExploreView {
     var sendTitle: some View {
         Image(systemName: "paperplane")
             .resizable()
-            .frame(width: 30, height: 30)
+            .frame(width: 27, height: 27)
     }
     
     var uploadPhotoButton: some View {

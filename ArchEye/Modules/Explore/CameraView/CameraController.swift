@@ -1,7 +1,7 @@
 import SwiftUI
 import AVFoundation
 
-class CameraController: UIViewController {
+final class CameraController: UIViewController {
     
     private var image: UIImage?
     
