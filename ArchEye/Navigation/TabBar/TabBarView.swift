@@ -9,15 +9,15 @@ struct TabBarView: View {
     var body: some View {
         ZStack(alignment: .bottom) {
             tabs
-
+            
             selectedTab
         }
         .background(
-                    Image("background")
-                        .resizable()
-                        .scaledToFill()
-                        .edgesIgnoringSafeArea(.all)
-                )
+            Image("background")
+                .resizable()
+                .scaledToFill()
+                .edgesIgnoringSafeArea(.all)
+        )
     }
 }
 
@@ -47,7 +47,7 @@ extension TabBarView {
         .onAppear {
             print("Initial tab: \(tab), Previous tab: \(prevTab)")
         }
-
+        
     }
 }
 
@@ -55,10 +55,10 @@ struct TabItem: View {
     var imageName: String
     
     var body: some View {
-            Image(systemName: imageName)
-                .resizable()
-                .aspectRatio(contentMode: .fit)
-                .frame(width: 25, height: 25)
+        Image(systemName: imageName)
+            .resizable()
+            .aspectRatio(contentMode: .fit)
+            .frame(width: 25, height: 25)
     }
 }
 

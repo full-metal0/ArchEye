@@ -35,7 +35,7 @@ struct ExploreView: View {
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .ignoresSafeArea(.all)
         .sheet(isPresented: $showingCustomCamera, onDismiss: loadImage) {
-            CustomCameraView(image: $inputImage)
+            CameraView(image: $inputImage)
         }
         .onChange(of: photoItem) { _ in
             handlePhotoChange()
@@ -66,18 +66,28 @@ private extension ExploreView {
     @ViewBuilder
     var analyzedPhoto: some View {
         if let image = image {
-            image
-                .resizable()
-                .clipShape(RoundedRectangle(cornerRadius: 25, style: .continuous))
-                .frame(width: 300, height: 300, alignment: .center)
-                .aspectRatio(contentMode: .fit)
-                .overlay(
-                    RoundedRectangle(cornerRadius: 25, style: .continuous)
-                        .stroke(Color.black.opacity(0.6), lineWidth: 4)
-                        .shadow(color: .black.opacity(0.5), radius: 10, x: 5, y: 5)
-                )
-                .transition(.opacity)
-                .animation(.easeInOut(duration: 1).delay(0.2), value: image)
+            GeometryReader { geometry in
+                VStack {
+                    Spacer()
+                    
+                    image
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 25, style: .continuous)
+                                .stroke(Color.black.opacity(0.8), lineWidth: 4)
+                                .shadow(color: .black.opacity(0.5), radius: 5, x: 0, y: 2)
+                        )
+                        .clipShape(RoundedRectangle(cornerRadius: 25, style: .continuous))
+                        .transition(.opacity)
+                        .animation(.easeInOut(duration: 1).delay(0.2), value: image)
+                    
+                    Spacer()
+                }
+                .frame(width: geometry.size.width, height: geometry.size.height)
+            }.padding(.horizontal, 20)
+
+
             
             photoLabel
             
