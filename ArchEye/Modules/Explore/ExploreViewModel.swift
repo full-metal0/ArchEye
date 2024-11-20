@@ -10,6 +10,9 @@ final class ExploreViewModel: ObservableObject {
     @Published var resultLabel = "undetected"
     @Published var resultPercents = [String:Double]()
     @Published var images = [Image]()
+}
+
+extension ExploreViewModel {
     
     func classifiedBuild(_ inputImage: UIImage) {
         DispatchQueue.global(qos: .userInitiated).async {
@@ -34,6 +37,10 @@ final class ExploreViewModel: ObservableObject {
                 self.resultPercents = classifierOutput[0].probabilities
             }
         }
+    }
+    
+    func toIntPercents(_ value: Double) -> String {
+        "\(Int(value * 100.0))%"
     }
 }
 

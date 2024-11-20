@@ -2,11 +2,14 @@ import SwiftUI
 import PhotosUI
 
 struct ExploreView: View {
+    
     @State private var image: Image?
     @State private var showingCustomCamera = false
+    
     @State private var inputImage: UIImage?
-    @State private var progress: CGFloat = 0
     @State private var photoItem: PhotosPickerItem?
+    
+    @State private var progress: CGFloat = 0
     @State private var statusBarPercentes = 0.0
     @State private var displayedPercent: Double = 0.0
     
@@ -117,7 +120,7 @@ private extension ExploreView {
     }
     
     var percents: some View {
-        Text("\(Int(displayedPercent * 100.0))%")
+        Text(viewModel.toIntPercents(displayedPercent))
             .font(.title3)
             .foregroundColor(.white)
             .padding(.horizontal, 12)
