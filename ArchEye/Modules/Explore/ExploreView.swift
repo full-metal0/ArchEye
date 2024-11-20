@@ -13,7 +13,7 @@ struct ExploreView: View {
     @State private var displayedLabelText: String = ""
     @State private var labelTimer: Timer?
     
-    @ObservedObject var viewModel: ViewModel
+    @ObservedObject var viewModel: ExploreViewModel
     
     var body: some View {
         VStack {
@@ -131,17 +131,7 @@ private extension ExploreView {
     }
     
     var label: String {
-        switch viewModel.resultLabel {
-        case "Барокко": return "Baroque"
-        case "Древнерусская архитектура": return "Old Russian Architecture"
-        case "Классицизм": return "Classicism"
-        case "Модерн": return "Modern"
-        case "Современный и экспериментальный": return "Modern and Experimental"
-        case "Сталинская архитектура": return "Stalinist Architecture"
-        case "Типовая советская архитектура": return "Typical Soviet Architecture"
-        default:
-            return "Undetected"
-        }
+        viewModel.resultLabel
     }
 }
 

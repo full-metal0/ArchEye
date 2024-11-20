@@ -3,7 +3,7 @@ import CoreML
 import Vision
 import SwiftUI
 
-final class ViewModel: ObservableObject {
+final class ExploreViewModel: ObservableObject {
     
     private let model = try? Model()
     
@@ -30,9 +30,26 @@ final class ViewModel: ObservableObject {
             }
             
             DispatchQueue.main.async {
-                self.resultLabel = classifierOutput[0].classLabel
+                self.resultLabel = self.getEngLabel(classifierOutput[0].classLabel)
                 self.resultPercents = classifierOutput[0].probabilities
             }
+        }
+    }
+}
+
+private extension ExploreViewModel {
+    
+    func getEngLabel(_ label: String) -> String {
+        switch label {
+        case "Барокко": return "Baroque"
+        case "Древнерусская архитектура": return "Old Russian Architecture"
+        case "Классицизм": return "Classicism"
+        case "Модерн": return "Modern"
+        case "Современный и экспериментальный": return "Modern and Experimental"
+        case "Сталинская архитектура": return "Stalin's Architecture"
+        case "Типовая советская архитектура": return "Typical Soviet Architecture"
+        default:
+            return "Undetected"
         }
     }
 }

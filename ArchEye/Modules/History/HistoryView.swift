@@ -5,7 +5,7 @@ struct HistoryView: View {
     
     @State private var progress: CGFloat = 0
     
-    @ObservedObject var viewModel: ViewModel
+    @ObservedObject var viewModel: ExploreViewModel
     
     var body: some View {
         ZStack {

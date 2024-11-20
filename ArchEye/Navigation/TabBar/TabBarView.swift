@@ -4,7 +4,7 @@ struct TabBarView: View {
     
     @State var tab = 1
     @State private var prevTab = 1
-    @StateObject private var viewModel = ViewModel()
+    @StateObject private var viewModel = ExploreViewModel()
     
     var body: some View {
         ZStack(alignment: .bottom) {

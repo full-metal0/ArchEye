@@ -15,7 +15,7 @@
 		2950E8C12AFEF4E500CDBF31 /* ArchEyeUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2950E8C02AFEF4E500CDBF31 /* ArchEyeUITests.swift */; };
 		2950E8C32AFEF4E500CDBF31 /* ArchEyeUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2950E8C22AFEF4E500CDBF31 /* ArchEyeUITestsLaunchTests.swift */; };
 		2950E8D02AFEF4FB00CDBF31 /* CameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2950E8CF2AFEF4FB00CDBF31 /* CameraView.swift */; };
-		2950E8D62AFEFB3A00CDBF31 /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2950E8D52AFEFB3A00CDBF31 /* ViewModel.swift */; };
+		2950E8D62AFEFB3A00CDBF31 /* ExploreViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2950E8D52AFEFB3A00CDBF31 /* ExploreViewModel.swift */; };
 		2950E8DC2AFF1CE900CDBF31 /* TabBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2950E8DB2AFF1CE900CDBF31 /* TabBarView.swift */; };
 		2950E8E32AFF1D0E00CDBF31 /* ColorScheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2950E8E22AFF1D0E00CDBF31 /* ColorScheme.swift */; };
 		2950E8E52AFF1D1400CDBF31 /* AnimatableGradientModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2950E8E42AFF1D1400CDBF31 /* AnimatableGradientModifier.swift */; };
@@ -71,7 +71,7 @@
 		2950E8C02AFEF4E500CDBF31 /* ArchEyeUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchEyeUITests.swift; sourceTree = "<group>"; };
 		2950E8C22AFEF4E500CDBF31 /* ArchEyeUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchEyeUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		2950E8CF2AFEF4FB00CDBF31 /* CameraView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraView.swift; sourceTree = "<group>"; };
-		2950E8D52AFEFB3A00CDBF31 /* ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
+		2950E8D52AFEFB3A00CDBF31 /* ExploreViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreViewModel.swift; sourceTree = "<group>"; };
 		2950E8DB2AFF1CE900CDBF31 /* TabBarView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarView.swift; sourceTree = "<group>"; };
 		2950E8E22AFF1D0E00CDBF31 /* ColorScheme.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorScheme.swift; sourceTree = "<group>"; };
 		2950E8E42AFF1D1400CDBF31 /* AnimatableGradientModifier.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnimatableGradientModifier.swift; sourceTree = "<group>"; };
@@ -210,7 +210,7 @@
 				3B0892452CECCABC001E8A5D /* CameraView */,
 				3B0892422CEC78BA001E8A5D /* StyleModifiers */,
 				2950E8F52AFF30C800CDBF31 /* ExploreView.swift */,
-				2950E8D52AFEFB3A00CDBF31 /* ViewModel.swift */,
+				2950E8D52AFEFB3A00CDBF31 /* ExploreViewModel.swift */,
 				2950E8FB2AFF6B9700CDBF31 /* Model.mlpackage */,
 			);
 			path = Explore;
@@ -452,7 +452,7 @@
 				2950E8E52AFF1D1400CDBF31 /* AnimatableGradientModifier.swift in Sources */,
 				3B3F76652CEBAE8800880676 /* ExploreButton.swift in Sources */,
 				3B0892442CEC78D5001E8A5D /* ExploreProgress.swift in Sources */,
-				2950E8D62AFEFB3A00CDBF31 /* ViewModel.swift in Sources */,
+				2950E8D62AFEFB3A00CDBF31 /* ExploreViewModel.swift in Sources */,
 				2950E8F82AFF370300CDBF31 /* UIImage+Extension.swift in Sources */,
 				2950E8E32AFF1D0E00CDBF31 /* ColorScheme.swift in Sources */,
 				3B10C90B2CE6245200F20FCF /* BezierPathLength.swift in Sources */,
