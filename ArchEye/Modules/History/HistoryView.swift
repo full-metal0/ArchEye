@@ -1,83 +1,72 @@
 import SwiftUI
-import Charts
 
 struct HistoryView: View {
-    
-    @State private var progress: CGFloat = 0
-    
     @ObservedObject var viewModel: ExploreViewModel
     
     var body: some View {
-        ZStack {
-            backgroundGradient
-            
-            VStack {
-                
-                Text("History")
-                    .font(.title)
-                    .foregroundColor(.black)
-                    .shadow(color: Color(red: 197/255, green: 197/255, blue: 197/255), radius: 3, x: 5, y: -2)
-                    .blur(radius: 0.2)
-                    .padding()
-                    .padding(.trailing, 200)
-                
-                ScrollView(.horizontal, showsIndicators: false) {
-                    HStack(spacing: 20) {
-                        Image("118996")
-                            .resizable()
-                            .clipShape(RoundedRectangle(cornerRadius: 25, style: .continuous))
-                            .frame(width: 250, height: 250, alignment: .center)
-                            .overlay(
-                                RoundedRectangle(cornerRadius: 25, style: .continuous)
-                                    .stroke(.white, lineWidth: 0.2)
-                                    .shadow(color: .black, radius: 1)
-                            )
-                        Image("120013")
-                            .resizable()
-                            .clipShape(RoundedRectangle(cornerRadius: 25, style: .continuous))
-                            .frame(width: 250, height: 250, alignment: .center)
-                            .overlay(
-                                RoundedRectangle(cornerRadius: 25, style: .continuous)
-                                    .stroke(.white, lineWidth: 0.2)
-                                    .shadow(color: .black, radius: 1)
-                            )
-                        
-                    }
-                }
-            }
-            .padding(.bottom, 250)
-            
+        VStack {
+            title
+            historyScrollView
+            Spacer()
         }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .ignoresSafeArea(.all)
-        .onAppear {
-            withAnimation(.linear(duration: 1.0)) {
-                progress = 1.0
-            }
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-                ColorTheme.lastTheme = defaultTheme
-            }
-        }
-        .onDisappear {
-            progress = 0.0
-        }
+        .background(
+            Image("background3")
+                .resizable()
+                .scaledToFill()
+                .edgesIgnoringSafeArea(.all)
+        )
     }
 }
 
-// MARK: - Background Gradient
+// MARK: - Title
 
 private extension HistoryView {
     
-    var backgroundGradient: some View {
-        Rectangle()
-            .animatableGradient(
-                fromGradient: ColorTheme.lastTheme.gradient,
-                toGradient: defaultTheme.gradient,
-                progress: progress
+    var title: some View {
+        Text("History")
+            .font(.custom("Futura-Bold", size: 24))
+            .foregroundColor(.white.opacity(0.9))
+            .padding()
+            .background(
+                RoundedRectangle(cornerRadius: 10)
+                    .fill(Color.black.opacity(0.2))
             )
-    }
-    
-    var defaultTheme: Theme {
-        ColorTheme.blueTheme
+            .overlay(
+                RoundedRectangle(cornerRadius: 10)
+                    .stroke(Color.white.opacity(0.7), lineWidth: 1)
+            )
+            .shadow(color: .black.opacity(0.8), radius: 5, x: 0, y: 2)
+            .padding(.bottom, 60)
     }
 }
+
+// MARK: - History Scroll View
+
+private extension HistoryView {
+    
+    var historyScrollView: some View {
+        ScrollView(.horizontal, showsIndicators: false) {
+            HStack(spacing: 20) {
+                ForEach(viewModel.images.indices, id: \.self) { index in
+                    let image = viewModel.images[index]
+                    image
+                        .resizable()
+                        .clipShape(RoundedRectangle(cornerRadius: 25, style: .continuous))
+                        .frame(width: 250, height: 250, alignment: .center)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 25, style: .continuous)
+                                .stroke(Color.white, lineWidth: 0.2)
+                                .shadow(color: .black, radius: 1)
+                        )
+                        .onTapGesture {
+                           
+                        }
+                }
+            }
+            .padding(.horizontal, 20)
+        }
+        .padding(.top, 10)
+    }
+}
+
+

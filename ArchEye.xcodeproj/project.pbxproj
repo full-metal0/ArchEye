@@ -40,7 +40,7 @@
 		3B3CD3A32CDA947C00AEBC04 /* VStack+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B3CD3A22CDA947200AEBC04 /* VStack+Extension.swift */; };
 		3B3CD3A52CDA949200AEBC04 /* HStack+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B3CD3A42CDA948C00AEBC04 /* HStack+Extension.swift */; };
 		3B3F76652CEBAE8800880676 /* ExploreButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B3F76642CEBAE8800880676 /* ExploreButton.swift */; };
-		3B9D74462CEE318F00E62642 /* DetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B9D74452CEE318F00E62642 /* DetailView.swift */; };
+		3B9D74462CEE318F00E62642 /* DetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B9D74452CEE318F00E62642 /* DetailsView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -97,7 +97,7 @@
 		3B3CD3A22CDA947200AEBC04 /* VStack+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "VStack+Extension.swift"; sourceTree = "<group>"; };
 		3B3CD3A42CDA948C00AEBC04 /* HStack+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HStack+Extension.swift"; sourceTree = "<group>"; };
 		3B3F76642CEBAE8800880676 /* ExploreButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreButton.swift; sourceTree = "<group>"; };
-		3B9D74452CEE318F00E62642 /* DetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailView.swift; sourceTree = "<group>"; };
+		3B9D74452CEE318F00E62642 /* DetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -244,7 +244,7 @@
 		2950E8EB2AFF1D7800CDBF31 /* Info */ = {
 			isa = PBXGroup;
 			children = (
-				3B9D74452CEE318F00E62642 /* DetailView.swift */,
+				3B9D74452CEE318F00E62642 /* DetailsView.swift */,
 				2950E8EE2AFF1D9C00CDBF31 /* InfoView.swift */,
 			);
 			path = Info;
@@ -462,7 +462,7 @@
 				3B10C90C2CE6245200F20FCF /* ButtonsBarLayout.swift in Sources */,
 				2950E8D02AFEF4FB00CDBF31 /* CameraView.swift in Sources */,
 				3B10C9082CE6244B00F20FCF /* Tabbar.swift in Sources */,
-				3B9D74462CEE318F00E62642 /* DetailView.swift in Sources */,
+				3B9D74462CEE318F00E62642 /* DetailsView.swift in Sources */,
 				3B3CD3A02CDA940C00AEBC04 /* ActivityAttributesDynamicIsland.swift in Sources */,
 				2950E8ED2AFF1D9600CDBF31 /* HistoryView.swift in Sources */,
 				3B10C90F2CE6245600F20FCF /* IndentableRect.swift in Sources */,

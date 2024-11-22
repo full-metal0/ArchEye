@@ -2,13 +2,15 @@ import SwiftUI
 
 struct InfoView: View {
     let architectureTypes = [
-        "Барокко" : "barokko",
-        "Сталинская архитектура" : "stalin",
-        "Модерн" : "modern",
-        "Современный и экспериментальный" : "modern and experimental",
-        "Древнерусская" : "old_russian",
-        "Типовая советская" : "soviet"
+        "Baroque" : "barokko",
+        "Stalin's Architecture" : "stalin",
+        "Modern" : "modern",
+        "Modern and Experimental" : "modern and experimental",
+        "Old Russian Architecture" : "old_russian",
+        "Typical Soviet Architecture" : "soviet"
     ]
+    
+    @State private var selectedArchitectureDetail: ArchitectureDetail?
     
     @State private var selectedArchitecture: String?
     @State private var showDetail = false
@@ -31,13 +33,12 @@ struct InfoView: View {
                 .scaledToFill()
                 .edgesIgnoringSafeArea(.all)
         )
-        .sheet(isPresented: $showDetail, onDismiss: {
-            selectedArchitecture = nil
-        }) {
-            if let selected = selectedArchitecture {
-                DetailView(architectureType: selected)
-            }
+        .sheet(item: $selectedArchitectureDetail, onDismiss: {
+            selectedArchitectureDetail = nil
+        }) { detail in
+            DetailsView(architectureType: detail.architectureType, imageName: detail.imageName, uiImage: nil)
         }
+
     }
     
     var safeAreaInsets: UIEdgeInsets? {
@@ -81,8 +82,7 @@ private extension InfoView {
     func listButton(_ key: String) -> some View {
         Button(
             action: {
-                selectedArchitecture = key
-                showDetail = true
+                selectedArchitectureDetail = ArchitectureDetail(architectureType: key, imageName: architectureTypes[key])
             },
             label: { listLabel(key) }
         ).padding(.vertical, 5)
@@ -116,4 +116,3 @@ private extension InfoView {
         .shadow(color: .black.opacity(0.8), radius: 5, x: 0, y: 2)
     }
 }
-
