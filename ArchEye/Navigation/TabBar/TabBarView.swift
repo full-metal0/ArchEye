@@ -29,7 +29,7 @@ extension TabBarView {
             
             ExploreView(viewModel: viewModel).tag(1)
             
-            ProfileView().tag(2)
+            InfoView().tag(2)
         }
     }
     
