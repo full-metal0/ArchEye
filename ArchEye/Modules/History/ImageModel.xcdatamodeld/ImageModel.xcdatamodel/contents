@@ -4,4 +4,8 @@
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="imagePath" optional="YES" attributeType="String"/>
     </entity>
+    <entity name="StyleDescription" representedClassName="StyleDescription" syncable="YES" codeGenerationType="class">
+        <attribute name="label" optional="YES" attributeType="String"/>
+        <attribute name="labelDescription" optional="YES" attributeType="String"/>
+    </entity>
 </model>

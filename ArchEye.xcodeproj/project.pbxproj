@@ -39,6 +39,8 @@
 		3BBBD8002CF741A80092B045 /* ImageModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 3BBBD7FE2CF741A80092B045 /* ImageModel.xcdatamodeld */; };
 		3BBBD8022CF7421D0092B045 /* PersistenceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BBBD8012CF742110092B045 /* PersistenceController.swift */; };
 		3BF306182CF8C46900C1D7C1 /* ImageStorageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BF306172CF8C46400C1D7C1 /* ImageStorageViewModel.swift */; };
+		3BF3061A2CF8E02100C1D7C1 /* InfoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BF306192CF8E01B00C1D7C1 /* InfoViewModel.swift */; };
+		3BF3061C2CF8E06D00C1D7C1 /* StylesDescriptions.json in Resources */ = {isa = PBXBuildFile; fileRef = 3BF3061B2CF8E05D00C1D7C1 /* StylesDescriptions.json */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -94,6 +96,8 @@
 		3BBBD7FF2CF741A80092B045 /* ImageModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ImageModel.xcdatamodel; sourceTree = "<group>"; };
 		3BBBD8012CF742110092B045 /* PersistenceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceController.swift; sourceTree = "<group>"; };
 		3BF306172CF8C46400C1D7C1 /* ImageStorageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageStorageViewModel.swift; sourceTree = "<group>"; };
+		3BF306192CF8E01B00C1D7C1 /* InfoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoViewModel.swift; sourceTree = "<group>"; };
+		3BF3061B2CF8E05D00C1D7C1 /* StylesDescriptions.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = StylesDescriptions.json; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -237,6 +241,8 @@
 		2950E8EB2AFF1D7800CDBF31 /* Info */ = {
 			isa = PBXGroup;
 			children = (
+				3BF3061B2CF8E05D00C1D7C1 /* StylesDescriptions.json */,
+				3BF306192CF8E01B00C1D7C1 /* InfoViewModel.swift */,
 				3B9D74452CEE318F00E62642 /* DetailsView.swift */,
 				2950E8EE2AFF1D9C00CDBF31 /* InfoView.swift */,
 			);
@@ -419,6 +425,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2950E8AD2AFEF4E500CDBF31 /* Preview Assets.xcassets in Resources */,
+				3BF3061C2CF8E06D00C1D7C1 /* StylesDescriptions.json in Resources */,
 				2950E8AA2AFEF4E500CDBF31 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -462,6 +469,7 @@
 				2950E8A82AFEF4E400CDBF31 /* ContentView.swift in Sources */,
 				3BBBD8022CF7421D0092B045 /* PersistenceController.swift in Sources */,
 				3B0892492CECE3A6001E8A5D /* CameraRepresentable.swift in Sources */,
+				3BF3061A2CF8E02100C1D7C1 /* InfoViewModel.swift in Sources */,
 				2950E8F62AFF30C800CDBF31 /* ExploreView.swift in Sources */,
 				2950E8FC2AFF6B9700CDBF31 /* Model.mlpackage in Sources */,
 				3B3CD3A52CDA949200AEBC04 /* HStack+Extension.swift in Sources */,

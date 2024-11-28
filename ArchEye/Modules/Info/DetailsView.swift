@@ -4,15 +4,9 @@ struct DetailsView: View {
     let architectureType: String
     let imageName: String?
     let uiImage: UIImage?
-
-    let architectureDescriptions: [String: String] = [
-        "Baroque": "Baroque description...",
-        "Stalin's Architecture": "Stalin's Architecture description...",
-        "Modern": "Modern description...",
-        "Modern and Experimental": "Modern and Experimental description...",
-        "Old Russian Architecture": "Old Russian Architecture description...",
-        "Typical Soviet Architecture": "Typtcal Soviet Architecture description..."
-    ]
+    
+    @StateObject var viewModel = InfoViewModel()
+    @State private var architectureDescriptions: [String: String] = [:]
 
     var body: some View {
         VStack {
@@ -65,17 +59,32 @@ struct DetailsView: View {
                             .fill(Color.black.opacity(0.6))
                     )
                     .shadow(color: .black.opacity(0.8), radius: 5, x: 0, y: 2)
+            } else {
+                Text("Description not available")
+                    .font(.body)
+                    .foregroundColor(.white)
+                    .padding()
+                    .background(
+                        RoundedRectangle(cornerRadius: 10)
+                            .fill(Color.black.opacity(0.6))
+                    )
+                    .shadow(color: .black.opacity(0.8), radius: 5, x: 0, y: 2)
             }
 
             Spacer()
         }
         .padding()
         .background(
-            Image("background2")
+            Image("background4")
                 .resizable()
                 .scaledToFill()
                 .edgesIgnoringSafeArea(.all)
         )
+        .onAppear {
+            if let descriptions = viewModel.loadDescriptions() {
+                architectureDescriptions = descriptions
+            }
+        }
     }
 }
 
