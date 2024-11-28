@@ -1,13 +1,16 @@
 import SwiftUI
 
 struct HistoryView: View {
-    @ObservedObject var viewModel: ExploreViewModel
+    @ObservedObject var viewModel: ImageStorageViewModel
     
     var body: some View {
         VStack {
             title
-            historyScrollView
+            historyGridView
             Spacer()
+        }
+        .onAppear {
+            viewModel.loadImages()
         }
         .background(
             Image("background3")
@@ -36,31 +39,49 @@ private extension HistoryView {
                     .stroke(Color.white.opacity(0.7), lineWidth: 1)
             )
             .shadow(color: .black.opacity(0.8), radius: 5, x: 0, y: 2)
-            .padding(.bottom, 60)
     }
 }
 
-// MARK: - History Scroll View
+// MARK: - Grid View
 
 private extension HistoryView {
     
-    var historyScrollView: some View {
-        ScrollView(.horizontal, showsIndicators: false) {
-            HStack(spacing: 20) {
-                ForEach(viewModel.images.indices, id: \.self) { index in
-                    let image = viewModel.images[index]
-                    image
-                        .resizable()
-                        .clipShape(RoundedRectangle(cornerRadius: 25, style: .continuous))
-                        .frame(width: 250, height: 250, alignment: .center)
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 25, style: .continuous)
-                                .stroke(Color.white, lineWidth: 0.2)
-                                .shadow(color: .black, radius: 1)
-                        )
-                        .onTapGesture {
-                           
+    var historyGridView: some View {
+        ScrollView {
+            LazyVStack(alignment: .leading, spacing: 10) {
+                let reversedImages = viewModel.images.reversed()
+                
+                ForEach(Array(reversedImages).indices, id: \.self) { index in
+                    if index % 2 == 0 {
+                        HStack(spacing: 10) {
+                            Array(reversedImages)[index]
+                                .resizable()
+                                .aspectRatio(contentMode: .fill)
+                                .frame(width: 170, height: 170)
+                                .clipShape(RoundedRectangle(cornerRadius: 25, style: .continuous))
+                                .overlay(
+                                    RoundedRectangle(cornerRadius: 25, style: .continuous)
+                                        .stroke(Color.white, lineWidth: 0.2)
+                                        .shadow(color: .black, radius: 1)
+                                )
+
+                            if index + 1 < Array(reversedImages).count {
+                                Array(reversedImages)[index + 1]
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fill)
+                                    .frame(width: 170, height: 170)
+                                    .clipShape(RoundedRectangle(cornerRadius: 25, style: .continuous))
+                                    .overlay(
+                                        RoundedRectangle(cornerRadius: 25, style: .continuous)
+                                            .stroke(Color.white, lineWidth: 0.2)
+                                            .shadow(color: .black, radius: 1)
+                                    )
+                            } else {
+                                Spacer()
+                                    .frame(width: 170, height: 170)
+                            }
                         }
+                    }
                 }
             }
             .padding(.horizontal, 20)
@@ -68,5 +89,3 @@ private extension HistoryView {
         .padding(.top, 10)
     }
 }
-
-

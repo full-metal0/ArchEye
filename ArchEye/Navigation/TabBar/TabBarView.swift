@@ -4,7 +4,8 @@ struct TabBarView: View {
     
     @State var tab = 1
     @State private var prevTab = 1
-    @StateObject private var viewModel = ExploreViewModel()
+    @StateObject private var classificationViewModel = ClassificationViewModel()
+    @StateObject private var imageStorageViewModel = ImageStorageViewModel()
     
     var body: some View {
         ZStack(alignment: .bottom) {
@@ -25,9 +26,12 @@ extension TabBarView {
     
     var tabs: some View {
         TabView(selection: $tab) {
-            HistoryView(viewModel: viewModel).tag(0)
+            HistoryView(viewModel: imageStorageViewModel).tag(0)
             
-            ExploreView(viewModel: viewModel).tag(1)
+            ExploreView(
+                classificationViewModel: classificationViewModel,
+                imageStorageViewModel: imageStorageViewModel
+            ).tag(1)
             
             InfoView().tag(2)
         }

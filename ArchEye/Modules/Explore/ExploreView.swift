@@ -16,7 +16,8 @@ struct ExploreView: View {
     @State private var displayedLabelText: String = ""
     @State private var labelTimer: Timer?
     
-    @ObservedObject var viewModel: ExploreViewModel
+    @ObservedObject var classificationViewModel: ClassificationViewModel
+    @ObservedObject var imageStorageViewModel: ImageStorageViewModel
     
     var body: some View {
         VStack {
@@ -95,8 +96,6 @@ private extension ExploreView {
                 .frame(width: geometry.size.width, height: geometry.size.height)
             }.padding(.horizontal, 20)
             
-            
-            
             photoLabel
             
             percents
@@ -120,7 +119,7 @@ private extension ExploreView {
     }
     
     var percents: some View {
-        Text(viewModel.toIntPercents(displayedPercent))
+        Text(classificationViewModel.toIntPercents(displayedPercent))
             .font(.title3)
             .foregroundColor(.white)
             .padding(.horizontal, 12)
@@ -134,7 +133,7 @@ private extension ExploreView {
     }
     
     var label: String {
-        viewModel.resultLabel
+        classificationViewModel.resultLabel
     }
 }
 
@@ -258,16 +257,14 @@ private extension ExploreView {
 private extension ExploreView {
     func loadImage() {
         guard let inputImage = inputImage else { return }
-        viewModel.classifiedBuild(inputImage)
+        classificationViewModel.classifiedBuild(inputImage)
+        imageStorageViewModel.saveImage(inputImage)
         image = Image(uiImage: inputImage)
-        if let image {
-            viewModel.images.append(image)
-        }
         statusBarPercentes = 0.0
         progress = 0.0
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
-            statusBarPercentes = viewModel.resultPercents.values.max() ?? 0.0
+            statusBarPercentes = classificationViewModel.resultPercents.values.max() ?? 0.0
             withAnimation(.easeOut(duration: 1).delay(0.1)) {
                 progress = statusBarPercentes
                 displayedPercent = 0.0

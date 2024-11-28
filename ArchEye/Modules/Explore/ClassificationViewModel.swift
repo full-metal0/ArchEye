@@ -3,16 +3,15 @@ import CoreML
 import Vision
 import SwiftUI
 
-final class ExploreViewModel: ObservableObject {
+final class ClassificationViewModel: ObservableObject {
     
     private let model = try? Model()
     
     @Published var resultLabel = "undetected"
-    @Published var resultPercents = [String:Double]()
-    @Published var images = [Image]()
+    @Published var resultPercents = [String: Double]()
 }
 
-extension ExploreViewModel {
+extension ClassificationViewModel {
     
     func classifiedBuild(_ inputImage: UIImage) {
         DispatchQueue.global(qos: .userInitiated).async {
@@ -39,14 +38,7 @@ extension ExploreViewModel {
         }
     }
     
-    func toIntPercents(_ value: Double) -> String {
-        "\(Int(value * 100.0))%"
-    }
-}
-
-private extension ExploreViewModel {
-    
-    func getEngLabel(_ label: String) -> String {
+    private func getEngLabel(_ label: String) -> String {
         switch label {
         case "Барокко": return "Baroque"
         case "Древнерусская архитектура": return "Old Russian Architecture"
@@ -58,5 +50,14 @@ private extension ExploreViewModel {
         default:
             return "Undetected"
         }
+    }
+}
+
+// MARK: - Labels Modify Action
+
+extension ClassificationViewModel {
+    
+    func toIntPercents(_ value: Double) -> String {
+        "\(Int(value * 100.0))%"
     }
 }
